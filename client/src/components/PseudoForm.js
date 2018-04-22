@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Form, Message } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
+import socket from '../api'
 
 class PseudoForm extends Component {
   state = { name: '', pseudoDispo: false, pseudoValide: true, pseudoNonDispo: false}
-
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
@@ -21,21 +22,22 @@ class PseudoForm extends Component {
 
       fetch('/postpseudo', {
         method: "POST",
-        headers: new Headers({
+        headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }),
+        },
         body: JSON.stringify({pseudo: name})
       })
         .then(res => res.json())
-        .catch(error => console.error(error))
         .then(data => {
           if(data.pseudoDispo) {
             this.setState({pseudoDispo: data.pseudoDispo})
+            socket.emit('playerConnected', name)
           } else {
             this.setState({pseudoNonDispo: true})
             }
           })
+        .catch(error => console.error(error))
 
 
     } else {
@@ -45,8 +47,10 @@ class PseudoForm extends Component {
 
   render() {
     const { name } = this.state
+    const redirectToGame = this.state.pseudoDispo ? <Redirect to={{pathname: '/game'}} /> : true
     return(
       <div>
+        {redirectToGame}
           <Form
             success={this.state.pseudoDispo}
             error={this.state.pseudoNonDispo}

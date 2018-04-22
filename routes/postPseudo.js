@@ -6,7 +6,6 @@ const Score = require('../model/playerModel')
 router.post('/', (req, res) => {
   let data = req.body
   let resData = {}
-  console.log(data)
 
   const getData = async (data) => {
     try {
@@ -21,7 +20,6 @@ router.post('/', (req, res) => {
         resData.pseudo = data.pseudo
         let score = new Score(data)
         //await score.save()
-        console.log('pseudo sauvegardé')
       }
       res.json(resData)
     }

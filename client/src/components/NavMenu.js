@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
-const game = '/game'
 const scores = '/scores'
 
 class MenuNav extends Component {
@@ -22,13 +21,6 @@ class MenuNav extends Component {
             onClick={this.handleItemClick}
             as={Link}
             to={{ pathname: '/'}}
-          />
-          <Menu.Item
-            name='game'
-            active={activeItem === 'game'}
-            onClick={this.handleItemClick}
-            as={Link}
-            to={{pathname: game}}
           />
           <Menu.Item
             name='scores'
