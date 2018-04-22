@@ -4,34 +4,39 @@ import { Form, Message } from 'semantic-ui-react'
 class PseudoForm extends Component {
   state = { name: '', pseudoDispo: false, pseudoValide: true, pseudoNonDispo: false}
 
+
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   handleSubmit = (e) => {
     e.preventDefault()
 
+    const { name } = this.state
+
+
     this.setState({pseudoDispo: false})
     this.setState({pseudoNonDispo: false})
 
-    const { name } = this.state
     if(name.length > 3) {
       this.setState({pseudoValide: true})
+
       fetch('/postpseudo', {
-        headers: {
+        method: "POST",
+        headers: new Headers({
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        },
-        method: "POST",
+        }),
         body: JSON.stringify({pseudo: name})
       })
         .then(res => res.json())
+        .catch(error => console.error(error))
         .then(data => {
-          console.log(data.pseudoDispo)
           if(data.pseudoDispo) {
             this.setState({pseudoDispo: data.pseudoDispo})
           } else {
             this.setState({pseudoNonDispo: true})
             }
           })
+
 
     } else {
       this.setState({pseudoValide: false})
@@ -41,7 +46,7 @@ class PseudoForm extends Component {
   render() {
     const { name } = this.state
     return(
-      <div> 
+      <div>
           <Form
             success={this.state.pseudoDispo}
             error={this.state.pseudoNonDispo}

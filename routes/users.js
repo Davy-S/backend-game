@@ -7,7 +7,6 @@ router.get('/', (req, res) => {
   let highscoresTable = async () => {
     try {
       await Score.find((err, docs) => {
-        console.log('kikoo')
         res.json(docs)
       })
     }
