@@ -37,13 +37,6 @@ class MenuNav extends Component {
             as={Link}
             to={{pathname: scores}}
           />
-          <Menu.Item
-            name='Test'
-            active={activeItem === 'Test'}
-            onClick={this.handleItemClick}
-            as={Link}
-            to={{pathname: '/test'}}
-          />
         </Menu>
       </div>
     )
