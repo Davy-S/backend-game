@@ -1,21 +1,28 @@
 import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
+import socket from '../api'
 
 class connectedUsers extends Component {
   constructor(props) {
     super(props)
-    this.state = { players: []}
+
+    socket.on('playerList', this.handleData)
+
+
+    this.state = {players : []}
   }
-  componentWillReceiveProps(nextProps) {
-    this.props = nextProps
-    this.setState({players: this.props.list})
+
+  handleData = (playerList) => {
+    console.log('handleData ' + playerList);
+    this.setState({players: playerList})
+    this.forceUpdate()
   }
 
   render() {
-    console.log(this.props.list)
+    console.log('render ' + this.state.players);
     return(
       <div>
-        {this.props.list.map(player =>
+        {this.state.players.map(player =>
           <Button basic color='violet' key={player}>{player}</Button>
         )}
       </div>

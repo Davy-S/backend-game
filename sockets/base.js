@@ -9,7 +9,9 @@ module.exports = function (io) {
       players.push(player)
 
       socket.emit('playerList', players)
+      socket.broadcast.emit('playerList', players)
     })
+
 
     socket.on('disconnect', () => {
 
