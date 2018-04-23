@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ConnectedUsers from '../components/connectedUsers'
+import socket from '../api'
 
 
 class Game extends Component {
@@ -9,13 +10,19 @@ class Game extends Component {
     this.state = { players: [] }
   }
 
-
+  componentDidMount() {
+    socket.on('playerList', this.handleData)
+  }
+  
+  handleData = (playerList) => {
+    this.setState({players: playerList})
+  }
 
   render() {
 
     return(
       <div>
-        <ConnectedUsers />
+        <ConnectedUsers list={this.state.players}/>
       </div>
     )
   }
