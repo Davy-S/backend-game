@@ -5,12 +5,14 @@ class HighScores extends Component {
   state = { users: [] }
 
   componentDidMount() {
-    fetch('/users')
+    fetch('/getusers')
+      .then(res => res.json())
       .then(users => this.setState({users}))
   }
-  
+
   render() {
     return(
+    <div>
     <Table celled inverted selectable>
       <Table.Header>
         <Table.Row>
@@ -21,18 +23,16 @@ class HighScores extends Component {
       </Table.Header>
 
       <Table.Body>
-        <Table.Row>
-          <Table.Cell textAlign="center">John</Table.Cell>
-          <Table.Cell textAlign="center">Approved</Table.Cell>
-          <Table.Cell textAlign='center'>None</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell textAlign="center">Jamie</Table.Cell>
-          <Table.Cell textAlign="center">Approved</Table.Cell>
-          <Table.Cell textAlign='center'>Requires call</Table.Cell>
-        </Table.Row>
+        {this.state.users.map(user =>
+          <Table.Row key={user._id} >
+            <Table.Cell textAlign="center">{user.pseudo}</Table.Cell>
+            <Table.Cell textAlign="center">{user.score}</Table.Cell>
+            <Table.Cell textAlign="center">{user.date}</Table.Cell>
+          </Table.Row>
+        )}
       </Table.Body>
     </Table>
+    </div>
     )
   }
 }
