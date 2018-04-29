@@ -20,7 +20,7 @@ app.use('/postpseudo', postPseudo);
 
 
 const db = mongoose.connection;
-const mongoDB = 'mongodb://localhost:27017/blindtest'
+const mongoDB = 'mongodb://Davy:choucroute@ds261929.mlab.com:61929/blindtest-db'
 mongoose.connect(mongoDB)
 
 app.use(logger('dev'));
