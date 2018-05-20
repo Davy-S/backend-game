@@ -2,19 +2,20 @@ module.exports = function (io) {
   let players = []
 
   io.on('connection', socket => {
-
-
-    socket.on('playerConnected', (player) => {
-
-      players.push(player)
+    io.emit('playerList', players)
+    socket.on('playerConnected', (playerConnected) => {
+      players.push(playerConnected)
 
       io.emit('playerList', players)
     })
 
 
     socket.on('disconnect', () => {
+      let i = players.indexOf(socket)
+      players.splice(i, 1)
 
-       console.log('user disconnected')
+      io.emit('playerList', players)
+
      })
   })
  }
