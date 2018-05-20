@@ -9,17 +9,22 @@ router.post('/', (req, res) => {
 
   const getData = async (data) => {
     try {
+      resData.pseudoDispo = false
       await Score.find({pseudo: data.pseudo}, (err, docs) => {
         if(!docs.length) {
           data.date = new Date(Date.now()).toLocaleString()
           resData.pseudoDispo = true
         }
-        else resData.pseudoDispo = false
+        if(docs.length){
+          resData.pseudoDispo = false
+        }
         })
       if(resData.pseudoDispo) {
         resData.pseudo = data.pseudo
         let score = new Score(data)
-        await score.save()
+        resData.pseudoDispo = true
+
+        //await score.save()
       }
       res.json(resData)
     }

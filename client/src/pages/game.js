@@ -13,9 +13,10 @@ class Game extends Component {
   componentDidMount() {
     socket.on('playerList', this.handleData)
   }
-  
+
   handleData = (playerList) => {
-    this.setState({players: playerList})
+    console.log('list', playerList)
+    this.setState({players: playerList.map( list => list.name )})
   }
 
   render() {
