@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
         let score = new Score(data)
         resData.pseudoDispo = true
 
-        //await score.save()
+        await score.save()
       }
       res.json(resData)
     }
