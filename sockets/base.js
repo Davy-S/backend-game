@@ -9,13 +9,11 @@ module.exports = function (io) {
       io.emit('playerList', players)
     })
 
-
     socket.on('disconnect', () => {
-      let i = players.indexOf(socket)
-      players.splice(i, 1)
+      const newPlayers = players.filter(player => player.id !== socket.id)
+      players = newPlayers
 
       io.emit('playerList', players)
-
      })
   })
  }
