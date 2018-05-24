@@ -10,9 +10,10 @@ module.exports = function (io) {
     })
     socket.on('playerScoreUpdate', (playerList) => {
       players = playerList
+
       io.emit('playerList', playerList)
     })
-    
+
     socket.on('disconnect', () => {
       const newPlayers = players.filter(player => player.id !== socket.id)
       players = newPlayers

@@ -13,7 +13,6 @@ class PseudoForm extends Component {
 
     const { name } = this.state
 
-
     this.setState({pseudoDispo: false})
     this.setState({pseudoNonDispo: false})
 
