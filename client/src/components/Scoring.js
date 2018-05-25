@@ -1,6 +1,8 @@
+import './Scoring.css'
 import React, { Component } from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Container } from 'semantic-ui-react'
 import ConnectedUsers from '../components/connectedUsers'
+import Quizz from './Quizz'
 import socket from '../api'
 
 class Scoring extends Component {
@@ -32,13 +34,24 @@ class Scoring extends Component {
   render() {
     return(
       <div>
-        <Button
+        {/*<Button
           onClick={this.handleScoring}
           >+ 100
-        </Button>
-        <ConnectedUsers
-          playerList={this.state.players}
-        />
+        </Button>*/}
+        <Container
+          textAlign='center'
+        >
+          <Quizz />
+        </Container>
+        <Container
+          textAlign='center'
+          className='users'
+        >
+          <ConnectedUsers
+            playerList={this.state.players}
+          />
+        </Container>
+
       </div>
     )
   }

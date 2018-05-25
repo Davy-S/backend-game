@@ -10,8 +10,9 @@ class connectedUsers extends Component {
             basic
             color='violet'
             key={player.id}
+            className='player'
           >
-          {player.name} | Score:{player.score}
+          {player.name} | Score: {player.score}
           </Button>
         )}
       </div>
