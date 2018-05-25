@@ -1,15 +1,15 @@
 module.exports = function (io) {
   let players = []
-  let gameStarted = false
 
   io.on('connection', socket => {
 
     io.emit('playerList', players)
 
     socket.on('quizz', (data) => {
-      data.gameStarted = true
-      
+
+
       io.emit('game', data)
+      io.emit('startGame')
     })
 
     socket.on('playerConnected', (playerConnected) => {

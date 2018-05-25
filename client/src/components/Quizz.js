@@ -4,8 +4,8 @@ import socket from '../api'
 import shuffle from 'lodash/shuffle'
 
 class Quizz extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       data: [],
@@ -15,6 +15,7 @@ class Quizz extends Component {
       index: 0,
       percent: 100,
       showAnswer: false,
+      disabledBtn: false,
     }
   }
 
@@ -25,6 +26,12 @@ class Quizz extends Component {
       answers.push(this.state.data[this.state.index].correct_answer)
       const shuffledAnswers = shuffle(answers)
       this.setState({ answers: shuffledAnswers })
+      console.log(this.state.data)
+
+    })
+
+    socket.on('startGame', () => {
+      this.incrementTimer()
 
     })
   }
@@ -32,16 +39,15 @@ class Quizz extends Component {
   handleCountdownComplete = () => {
     console.log('complete')
     this.setState({ index: this.state.index + 1 })
-    console.log(this.state.index);
     let answers = []
     answers = this.state.data[this.state.index].incorrect_answers
     answers.push(this.state.data[this.state.index].correct_answer)
-    console.log(answers)
+
     const shuffledAnswers = shuffle(answers)
-    this.setState({ answers: shuffledAnswers, percent: 100, showAnswer: false })
+    
+    this.setState({ answers: shuffledAnswers, percent: 100, showAnswer: false, disabledBtn: false })
 
     this.incrementTimer()
-
   }
 
   handleFetchData = () => {
@@ -49,13 +55,12 @@ class Quizz extends Component {
     fetch('https://opentdb.com/api.php?amount=20&category=18&type=multiple')
       .then(result => result.json())
       .then(data => socket.emit('quizz', data))
-      .then(this.incrementTimer)
   }
 
   incrementTimer = () =>  {
 
     const interval = () => {
-      if(this.state.percent > 50) {
+      if(this.state.percent > 0) {
         this.setState({
           percent: this.state.percent - 10,
         })
@@ -71,15 +76,35 @@ class Quizz extends Component {
     }
     const intervalId = setInterval(interval, 1000)
     this.setState({ intervalId: intervalId })
-
-
 }
 
+handleAnswer = (e) => {
+  console.log('players', this.props.playerList)
+  if(this.state.data[this.state.index].correct_answer === e.target.value) {
+    this.props.playerList.forEach(player => {
+      if(player.id === socket.id) {
+        player.score += 100
+
+        socket.emit('playerScoreUpdate', this.props.playerList)
+      }
+    })
+  }
+
+  this.setState({ disabledBtn: true })
+}
+
+componentWillUnmount() {
+  clearInterval(this.state.intervalId)
+}
+
+
   render() {
+    console.log('props', this.props.playerList)
     return(
       <div>
         {!this.state.gameStarted ?
           <div>
+
             <Header as='h2'>Start the game when everyone is ready !</Header>
             <Button
               color='teal'
@@ -104,13 +129,15 @@ class Quizz extends Component {
                 <Button
                   key={answer}
                   color='blue'
+                  value={answer}
+                  disabled={this.state.disabledBtn}
+                  onClick={this.handleAnswer}
                 >
                 {answer}
                 </Button>
               )
               : null
             }
-
               {this.state.showAnswer ?
 
                 <Button
@@ -121,13 +148,8 @@ class Quizz extends Component {
               }
 
           </div>
-
           : null
         }
-
-
-
-
       </div>
     )
   }

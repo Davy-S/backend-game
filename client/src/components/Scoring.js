@@ -9,7 +9,10 @@ class Scoring extends Component {
   constructor() {
     super()
 
-    this.state = { players: [] }
+    this.state = {
+      players: [],
+      quizzList: [],
+     }
   }
 
   componentDidMount() {
@@ -17,20 +20,9 @@ class Scoring extends Component {
   }
 
   handleData = (playerList) => {
-    this.setState({players: playerList })
+    this.setState({players: playerList, quizzList: playerList })
   }
 
-  handleScoring = () => {
-    this.state.players.forEach(player => {
-      if(player.id === socket.id) {
-        player.score += 100
-
-        socket.emit('playerScoreUpdate', this.state.players)
-        this.setState({ players: this.state.players })
-      }
-    })
-
-  }
   render() {
     return(
       <div>
@@ -41,7 +33,9 @@ class Scoring extends Component {
         <Container
           textAlign='center'
         >
-          <Quizz />
+          <Quizz
+            playerList={this.state.quizzList}
+          />
         </Container>
         <Container
           textAlign='center'

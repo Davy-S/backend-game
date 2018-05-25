@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Score = require('../model/playerModel')
 
-
 router.post('/', (req, res) => {
   let data = req.body
   let resData = {}
@@ -15,9 +14,10 @@ router.post('/', (req, res) => {
           data.date = new Date(Date.now()).toLocaleString()
           resData.pseudoDispo = true
         }
-        if(docs.length){
+        if(docs.length) {
           resData.pseudoDispo = false
         }
+
         })
       if(resData.pseudoDispo) {
         resData.pseudo = data.pseudo
