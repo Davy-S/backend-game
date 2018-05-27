@@ -53,7 +53,6 @@ class Quizz extends Component {
       if(!this.state.gameFinished) {
         this.incrementTimer()
       }
-
   }
 
   handleFetchData = () => {
@@ -80,18 +79,14 @@ class Quizz extends Component {
             finalList.sort(function(a, b){
                 return b.score - a.score
             })
-
             const winner = { name: finalList[0].name, score: finalList[0].score }
-
-
-              socket.emit('gameEnded', this.props.playerList)
-              this.setState({ winner: winner })
+            socket.emit('gameEnded', this.props.playerList)
+            this.setState({ winner: winner })
           }
           if(this.state.data.length -1 > this.state.index) {
             setTimeout(() => {this.handleCountdownComplete() }, 3000)
           }
       }
-
     }
 
     const intervalId = setInterval(interval, 1000)
@@ -113,7 +108,10 @@ class Quizz extends Component {
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
+    socket.emit('endBtn')
+
   }
+
 
   render() {
     return(
@@ -136,7 +134,6 @@ class Quizz extends Component {
         }
         {!this.state.gameStarted && !this.state.gameFinished ?
           <div>
-
             <Header as='h2'>Start the game when everyone is ready !</Header>
             <Button
               color='teal'
@@ -171,7 +168,6 @@ class Quizz extends Component {
               : null
             }
               {this.state.showAnswer ?
-
                 <Button
                   color='green'
                 >
