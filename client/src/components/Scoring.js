@@ -1,6 +1,6 @@
 import './Scoring.css'
 import React, { Component } from 'react'
-import { Button, Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import ConnectedUsers from '../components/connectedUsers'
 import Quizz from './Quizz'
 import socket from '../api'

@@ -1,7 +1,25 @@
+const Score = require('./model/playerModel')
+
 module.exports = function (io) {
   let players = []
 
   io.on('connection', socket => {
+    socket.on('gameEnded', (data) => {
+
+        const callback = (err, numAffected) => {
+            // numAffected is the number of updated documents
+            console.log('update', numAffected)
+            console.log(err)
+          }
+          
+        data.forEach((obj) => {
+          Score.update({pseudo: obj.name}, {$set: {score: obj.score}}, callback);
+
+        });
+
+
+
+    })
 
     io.emit('playerList', players)
 
