@@ -30,7 +30,6 @@ class Quizz extends Component {
       answers.push(this.state.data[this.state.index].correct_answer)
       const shuffledAnswers = shuffle(answers)
       this.setState({ answers: shuffledAnswers })
-
     })
 
     socket.on('startGame', () => {
