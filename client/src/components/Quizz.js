@@ -58,7 +58,7 @@ class Quizz extends Component {
 
   handleFetchData = () => {
     this.setState({ isFetching: true })
-    fetch('https://opentdb.com/api.php?amount=3&category=18&type=multiple')
+    fetch('https://opentdb.com/api.php?amount=15&category=18&type=multiple')
       .then(result => result.json())
       .then(data => socket.emit('quizz', data))
   }
@@ -66,7 +66,7 @@ class Quizz extends Component {
   incrementTimer = () =>  {
 
     const interval = () => {
-      if(this.state.percent > 50) {
+      if(this.state.percent > 0) {
         this.setState({
           percent: this.state.percent - 10,
         })
