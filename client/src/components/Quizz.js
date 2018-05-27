@@ -24,9 +24,8 @@ class Quizz extends Component {
 
   componentDidMount() {
     socket.on('game', (data) => {
-      const shuffledQuestions = shuffle(data.results)
 
-      this.setState({ data: shuffledQuestions, gameStarted: true, isFetching: false })
+      this.setState({ data: data.results, gameStarted: true, isFetching: false })
       let answers = this.state.data[this.state.index].incorrect_answers
       answers.push(this.state.data[this.state.index].correct_answer)
       const shuffledAnswers = shuffle(answers)
