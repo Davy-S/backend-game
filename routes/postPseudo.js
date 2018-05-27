@@ -25,8 +25,8 @@ router.post('/', (req, res) => {
         resData.pseudoDispo = true
 
         score.save()
-        res.json(resData)
       }
+      res.json(resData)
     }
     catch(e) {
       console.error('catch error', e)
