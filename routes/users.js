@@ -6,9 +6,9 @@ const Score = require('../model/playerModel')
 router.get('/', (req, res) => {
   let highscoresTable = async () => {
     try {
-      await Score.find((err, docs) => {
+      await Score.find({}).sort({score: 'desc'}).exec(function(err, docs) {
         res.json(docs)
-      })
+       });
     }
     catch(e) {
       console.error(`catch ${e}`)
