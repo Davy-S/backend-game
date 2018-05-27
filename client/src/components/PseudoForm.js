@@ -13,7 +13,6 @@ class PseudoForm extends Component {
 
     const { name } = this.state
 
-
     this.setState({pseudoDispo: false})
     this.setState({pseudoNonDispo: false})
 
@@ -31,7 +30,7 @@ class PseudoForm extends Component {
         .then(res => res.json())
         .then(data => {
           if(data.pseudoDispo) {
-            let playerConnected = {name: name, id: socket.id }
+            let playerConnected = {name: name, id: socket.id, score: 0 }
             this.setState({pseudoDispo: data.pseudoDispo})
             socket.emit('playerConnected', playerConnected)
           } else {

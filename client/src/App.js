@@ -10,7 +10,7 @@ class Project extends Component {
   render() {
     return(
       <Container>
-        <h1>BackGame</h1>
+        <h1>Quizz</h1>
         <Divider />
         <Switch>
           <Route exact path="/" component={NavMenu} />
